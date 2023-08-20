@@ -26,7 +26,6 @@ function formatDay(timestamp) {
 
   return days[day];
 }
-}
 function getForecast(coordinates) {
   console.log(coordinates);
   let apiKey = "cd8d8a46294ebfb28b4e7400ee19d497";
