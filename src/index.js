@@ -22,22 +22,20 @@ function formatDate(timestamp) {
 }
 
 function displayTemperature(response) {
-  let temperatureElement = document.querySelector("#temperature");
-  let cityElement = document.querySelector("#city");
-  let descriptionElement = document.querySelector("#description");
-  let humidityElement = document.querySelector("#humidity");
-  let windElement = document.querySelector("#wind");
-  let dateElement = document.querySelector("#date");
-  let iconElement = document.querySelector("#icon");
+  console.log(response.data);
+  const temperatureElement = document.getElementById("temperature");
+  const cityElement = document.getElementById("city");
+  const descriptionElement = document.getElementById("desciption");
+  const humidityElement = document.getElementById("humidity");
+  const windElement = document.getElementById("wind");
+  const iconElement = document.getElementById("icon");
 
-  celsiusTemperature = response.data.temperature.current;
-
+  celsiusTemperature = response.data.main.temp;
   temperatureElement.innerHTML = Math.round(celsiusTemperature);
-  cityElement.innerHTML = response.data.city;
-  descriptionElement.innerHTML = response.data.condition.description;
-  humidityElement.innerHTML = response.data.temperature.humidity;
+  cityElement.innerHTML = response.data.name;
+  descriptionElement.innerHTML = response.data.weather[0].description;
+  humidityElement.innerHTML = response.data.main.humidity;
   windElement.innerHTML = Math.round(response.data.wind.speed);
-  dateElement.innerHTML = formatDate(response.data.time * 1000);
   iconElement.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
@@ -47,46 +45,39 @@ function displayTemperature(response) {
 }
 
 function search(city) {
-  let apiKey = "cd8d8a46294ebfb28b4e7400ee19d497";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
+  const apiKey = "cd8d8a46294ebfb28b4e7400ee19d497";
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayTemperature);
 }
 
 function handleSubmit(event) {
   event.preventDefault();
-  let cityInputElement = document.querySelector("#city-input");
+  const cityInputElement = document.getElementById("city-input");
+  console.log(cityInputElement.value);
   search(cityInputElement.value);
 }
 
-function displayFahrenheitLinkTemperature(event) {
+function displayFahrenheitTemperature(event) {
   event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  celsiusLink.classList.remove("active");
-  fahrenheitLink.classList.add("active");
-  let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
-
-  temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+  const fahrenheitTemperature = Math.round((19 * 9) / 5 + 32 + 32);
+  const temperatureElement = document.getElementById("temperature");
+  temperatureElement.innerHTML = fahrenheitTemperature;
 }
 
-function displayCelsiusLinkTemperature(event) {
+function displayCelsiusTemperature(event) {
   event.preventDefault();
-  celsiusLink.classList.add("active");
-  fahrenheitLink.classList.remove("active");
-  let temperatureElement = document.querySelector("#temperature");
+  const temperatureElement = document.getElementById("temperature");
   temperatureElement.innerHTML = Math.round(celsiusTemperature);
 }
 
 let celsiusTemperature = null;
-
-let form = document.querySelector("#search-form");
+const form = document.getElementById("search-form");
 form.addEventListener("submit", handleSubmit);
 
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", displayFahrenheitLinkTemperature);
+const fahrenheitLink = document.getElementById("fahrenheit-link");
+fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
-let celsiusLink = document.querySelector("#celsius-link");
-celsiusLink.addEventListener("click", displayCelsiusLinkTemperature);
+const celsiusLink = document.getElementById("celsius-link");
+celsiusLink.addEventListener("click", displayCelsiusTemperature);
 
 search("Cape Town");
-
