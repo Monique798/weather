@@ -1,25 +1,31 @@
-function formatDate(timestamp) {
-  let date = new Date(timestamp);
-  let hours = date.getHours();
-  return `${day} ${hours}:${minutes}`;
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  let minutes = date.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let day = days[date.getDay()];
-  return `${day} ${hours}:${minutes}`;
+const currentDate = new Date();
+
+const date = "currentDate";
+const dateElement = document.getElementById(date);
+
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const dayOfWeek = daysOfWeek[currentDate.getDay()];
+const hours = String(currentDate.getHours()).padStart(2, "0");
+const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+const currentTime = `${dayOfWeek} ${hours}:${minutes}`;
+console.log(currentTime);
+dateElement.textContent = `${currentTime}`;
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
 }
 function getForecast(coordinates) {
   console.log(coordinates);
