@@ -20,6 +20,12 @@ function formatDate(timestamp) {
   let day = days[date.getDay()];
   return `${day} ${hours}:${minutes}`;
 }
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "cd8d8a46294ebfb28b4e7400ee19d497";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(dispalyForecast);
+}
 
 function displayTemperature(response) {
   console.log(response.data);
